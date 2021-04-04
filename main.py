@@ -18,10 +18,13 @@ from workflow.util import set_config, unset_config
 from workflow.update import Version
 from config import confNames, getConfigValue
 
+from NewStoryAddon import isTicketURL
+
+
 DEBUG = 2 # 0 = Off (no output), 1 = Some, 2 = All
 
 UPDATE_SETTINGS = {
-	'github_slug': 'mschmidtkorth/alfred-clickup-msk',
+	'github_slug': 'RvDelft/alfred-clickup-msk',
 	#'version': __version__,
 	'frequency': 3
 }
@@ -359,7 +362,7 @@ def getNameFromInput(query):
 	'''
 	if DEBUG > 0:
 		log.debug('[ getNameFromInput() ] ')
-	inputName = query.split(":", 1)[0].split(" #", 1)[0].split(" @", 1)[0].split(" !", 1)[0].split(" +", 1)[0].strip() # If it cannot be split, first element will be complete string
+	inputName = query.split(" :", 1)[0].split(" #", 1)[0].split(" @", 1)[0].split(" !", 1)[0].split(" +", 1)[0].strip() # If it cannot be split, first element will be complete string
 	if DEBUG > 1:
 		log.debug('inputName: ' + str(inputName))
 
@@ -375,7 +378,7 @@ def getContentFromInput(query):
 	if DEBUG > 0:
 		log.debug('[ getContentFromInput() ] ')
 	inputContent = ''
-	hasContent = len(query.split(':')) > 1
+	hasContent = len(query.split(' :')) > 1
 	if hasContent:
 		inputContent = query.split(':', 1)[1].split(' #', 1)[0].split(' @', 1)[0].split(' !', 1)[0].split(" +", 1)[0].strip().decode('utf-8') # Avoid adding #myTag, @due, !priority to the content text
 	if DEBUG > 1:
@@ -406,6 +409,9 @@ def getTagsFromInput(query):
 				inputTags.append(tagValue.strip())
 	if DEBUG > 1:
 		log.debug('inputTags: ' + str(inputTags))
+		
+	if (isTicketURL(query)):
+		inputTags.append('ticket')
 
 	return inputTags
 
@@ -430,6 +436,8 @@ def getDueFromInput(query):
 ----------
 	@param str query: The user's input.
 	'''
+	if isTicketURL(query):
+		return None 
 
 	if DEBUG > 0:
 		log.debug('[ getDueFromInput() ] ')
