@@ -1396,8 +1396,8 @@ Uses fuzzy search instead of Alfred filtering.</string>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>1.1.1</string>
+	<string>1.1.1-1</string>
 	<key>webaddress</key>
-	<string>https://github.com/mschmidtkorth/alfred-clickup-msk/</string>
+	<string>https://github.com/rvdelft/alfred-clickup-msk/</string>
 </dict>
 </plist>

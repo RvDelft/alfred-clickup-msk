@@ -28,6 +28,7 @@ UPDATE_SETTINGS = {
 	#'version': __version__,
 	'frequency': 3
 }
+
 query = ''
 availableTags = None
 availableLists = None
@@ -409,7 +410,7 @@ def getTagsFromInput(query):
 				inputTags.append(tagValue.strip())
 	if DEBUG > 1:
 		log.debug('inputTags: ' + str(inputTags))
-		
+
 	if (isTicketURL(query)):
 		inputTags.append('ticket')
 
